@@ -61,18 +61,20 @@ public class Main {
     }
 
     public static void readScore(String body,String target) throws MessagingException {
-        String[] t = target.split("\\n");
+        String[] t = body.split("\\n");
         for(int i=0;i<t.length;i++){
             //找到了目标学科的成绩
             if(t[i].indexOf(target)!=-1){
                 //判断成绩是不是出来了
-                if(t[i+2].indexOf("成绩尚未录入")!=-1){
+                if(t[i+2].indexOf("成绩尚未录入")==-1){
+                    System.out.println("成绩出来了,正在准备发送邮件");
                     //成绩出来了发送邮件通知
                     SimpleMailSender sms = new SimpleMailSender("249602015@qq.com","joy-zhuang");
                     String message = "扬哥，您的<font color='red'>" + target + "</font>成绩终于出来啦!您获得了" + t[i+2] + "分!恭喜您通过考试!";
                     sms.send("249602015@qq.com","成绩出来了!",message);
                     break;
                 }else{
+                    System.out.println("成绩没有出来!");
                     break;
                 }
             }
